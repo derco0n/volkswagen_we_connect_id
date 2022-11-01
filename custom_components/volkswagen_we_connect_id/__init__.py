@@ -5,6 +5,7 @@ from datetime import timedelta
 import logging
 import asyncio
 import time
+
 from weconnect import weconnect
 from weconnect.elements.control_operation import ControlOperation
 from weconnect.service import Service
@@ -24,7 +25,8 @@ PLATFORMS = [Platform.BINARY_SENSOR, Platform.BUTTON, Platform.SENSOR, Platform.
 
 _LOGGER = logging.getLogger(__name__)
 
-SUPPORTED_VEHICLES = ["ID.3", "ID.4", "ID.5"]
+# We shouldn't need to do this check. weconnect-python abstracts it away
+# SUPPORTED_VEHICLES = ["ID.3", "ID.4", "ID.5"]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:

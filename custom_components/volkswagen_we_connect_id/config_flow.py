@@ -24,7 +24,7 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
         vol.Required("password"): str,
         vol.Required("service", default='WeConnect'): selector({
             "select": {
-                "options": ["WeConnect", "WeCharge", "MyCupra"]
+                "options": ["WeConnect", "MyCupra"]
             }
         }),
     }

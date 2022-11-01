@@ -74,6 +74,7 @@ SENSORS: tuple[VolkswagenIdEntityDescription, ...] = (
             "climatisationSettings"
         ].targetTemperature_F.value,
     ),
+    # Not available from Cupra
     VolkswagenIdEntityDescription(
         key="unitInCar",
         name="Unit In car",
@@ -101,6 +102,7 @@ SENSORS: tuple[VolkswagenIdEntityDescription, ...] = (
         icon="mdi:ev-station",
         value=lambda data: data["charging"]["chargingStatus"].chargeMode.value,
     ),
+    # Not available for Cupra
     VolkswagenIdEntityDescription(
         key="chargePower_kW",
         name="Charge Power",
@@ -108,22 +110,26 @@ SENSORS: tuple[VolkswagenIdEntityDescription, ...] = (
         device_class=DEVICE_CLASS_POWER,
         value=lambda data: data["charging"]["chargingStatus"].chargePower_kW.value,
     ),
+    # Not available for Cupra
     VolkswagenIdEntityDescription(
         key="chargeRate_kmph",
         name="Charge Rate",
         native_unit_of_measurement=SPEED_KILOMETERS_PER_HOUR,
         value=lambda data: data["charging"]["chargingStatus"].chargeRate_kmph.value,
     ),
+    # Not available for Cupra
     VolkswagenIdEntityDescription(
         key="chargingSettings",
         name="Charging Settings",
         value=lambda data: data["charging"]["chargingStatus"].chargingSettings.value,
     ),
+    # Not available for Cupra
     VolkswagenIdEntityDescription(
         key="chargeType",
         name="Charge Type",
         value=lambda data: data["charging"]["chargingStatus"].chargeType.value,
     ),
+    # Not available for Cupra
     VolkswagenIdEntityDescription(
         key="maxChargeCurrentAC",
         name="Max Charge Current AC",
@@ -161,6 +167,7 @@ SENSORS: tuple[VolkswagenIdEntityDescription, ...] = (
             "batteryStatus"
         ].cruisingRangeElectric_km.value,
     ),
+    # Not available for Cupra
     VolkswagenIdEntityDescription(
         name="Health Inspection",
         key="inspectionDue",
