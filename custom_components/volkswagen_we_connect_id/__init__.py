@@ -47,15 +47,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         """Fetch data from Volkswagen API."""
 
         try:
-            before_update = time.perf_counter()
             await asyncio.wait_for(
                 hass.async_add_executor_job(_we_connect.update),
                 timeout=120.0
             )
-            update_elapsed = time.perf_counter() - before_update
-            if update_elapsed > 30:
-                _LOGGER.warn(F"weconnect update took {update_elapsed:.1f}s")    
-
         except asyncio.TimeoutError:
             _LOGGER.error("Timeout updating weconnect")
             return
@@ -63,8 +58,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         vehicles = []
 
         for vin, vehicle in _we_connect.vehicles.items():
-            if vehicle.model.value in SUPPORTED_VEHICLES:
-                vehicles.append(vehicle)
+            # TODO this needs to be done in validate_input so we can warn
+            # user if their vehicle is unsupported
+            # if vehicle.model.value in SUPPORTED_VEHICLES:
+            #     vehicles.append(vehicle)
+            vehicles.append(vehicle)
 
         hass.data[DOMAIN][entry.entry_id + "_vehicles"] = vehicles
         return vehicles
