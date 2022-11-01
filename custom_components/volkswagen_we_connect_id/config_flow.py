@@ -11,6 +11,7 @@ from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
+from homeassistant.helpers.selector import selector
 
 from .const import DOMAIN
 
@@ -20,6 +21,11 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required("username"): str,
         vol.Required("password"): str,
+        vol.Required("service", default='WeConnect'): selector({
+        "select": {
+            "options": ["WeConnect", "WeCharge", "MyCupra"]
+        }
+    }),
     }
 )
 
@@ -30,6 +36,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     we_connect = weconnect.WeConnect(
         username=data["username"],
         password=data["password"],
+        service=data["service"],
         updateAfterLogin=False,
         loginOnInit=False,
     )
