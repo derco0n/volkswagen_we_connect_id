@@ -6,6 +6,7 @@ from typing import Any
 
 import voluptuous as vol
 from weconnect import weconnect
+from weconnect.service import Service
 
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
@@ -36,7 +37,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     we_connect = weconnect.WeConnect(
         username=data["username"],
         password=data["password"],
-        service=data["service"],
+        service=Service[data["service"]],
         updateAfterLogin=False,
         loginOnInit=False,
     )

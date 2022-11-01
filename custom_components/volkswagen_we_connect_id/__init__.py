@@ -7,6 +7,7 @@ import asyncio
 import time
 from weconnect import weconnect
 from weconnect.elements.control_operation import ControlOperation
+from weconnect.service import Service
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
@@ -33,6 +34,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     _we_connect = weconnect.WeConnect(
         username=entry.data["username"],
         password=entry.data["password"],
+        service=Service[entry.data["service"]],
         updateAfterLogin=False,
         loginOnInit=False,
         timeout=10
@@ -40,7 +42,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     
     await hass.async_add_executor_job(_we_connect.login)
     await hass.async_add_executor_job(_we_connect.update)
-
 
     async def async_update_data():
         """Fetch data from Volkswagen API."""
