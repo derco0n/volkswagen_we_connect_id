@@ -23,10 +23,10 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
         vol.Required("username"): str,
         vol.Required("password"): str,
         vol.Required("service", default='WeConnect'): selector({
-        "select": {
-            "options": ["WeConnect", "WeCharge", "MyCupra"]
-        }
-    }),
+            "select": {
+                "options": ["WeConnect", "WeCharge", "MyCupra"]
+            }
+        }),
     }
 )
 
@@ -34,12 +34,14 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
 async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str, Any]:
     """Validate the user input allows us to connect."""
 
+    _LOGGER.debug(f'validate_input with username={data["username"]}, service={Service(data["service"])}')
+
     we_connect = weconnect.WeConnect(
         username=data["username"],
         password=data["password"],
-        service=Service[data["service"]],
+        service=Service(data["service"]),
         updateAfterLogin=False,
-        loginOnInit=False,
+        loginOnInit=False
     )
 
     # TODO: ADD Validation on credentials

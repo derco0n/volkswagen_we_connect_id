@@ -34,7 +34,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     _we_connect = weconnect.WeConnect(
         username=entry.data["username"],
         password=entry.data["password"],
-        service=Service[entry.data["service"]],
+        service=Service(entry.data["service"]),
         updateAfterLogin=False,
         loginOnInit=False,
         timeout=10
