@@ -167,31 +167,33 @@ SENSORS: tuple[VolkswagenIdEntityDescription, ...] = (
             "batteryStatus"
         ].cruisingRangeElectric_km.value,
     ),
-    # Not available for Cupra
-    VolkswagenIdEntityDescription(
-        name="Health Inspection",
-        key="inspectionDue",
-        native_unit_of_measurement=TIME_DAYS,
-        value=lambda data: data["vehicleHealthInspection"][
-            "maintenanceStatus"
-        ].inspectionDue_days.value,
-    ),
-    VolkswagenIdEntityDescription(
-        name="Odometer in Kilometers",
-        key="odometer_km",
-        native_unit_of_measurement=LENGTH_KILOMETERS,
-        value=lambda data: data["measurements"][
-            "odometerStatus"
-        ].odometer.value,
-    ),
-    VolkswagenIdEntityDescription(
-        name="Odometer in Miles",
-        key="odometer_mi",
-        native_unit_of_measurement=LENGTH_MILES,
-        value=lambda data: data["measurements"][
-            "odometerStatus"
-        ].odometer.value,
-    ),
+    # TODO bring back when supported by Cupra
+    # VolkswagenIdEntityDescription(
+    #     name="Health Inspection",
+    #     key="inspectionDue",
+    #     native_unit_of_measurement=TIME_DAYS,
+    #     value=lambda data: data["vehicleHealthInspection"][
+    #         "maintenanceStatus"
+    #     ].inspectionDue_days.value,
+    # ),
+    # TODO bring back when supported by Cupra
+    # VolkswagenIdEntityDescription(
+    #     name="Odometer in Kilometers",
+    #     key="odometer_km",
+    #     native_unit_of_measurement=LENGTH_KILOMETERS,
+    #     value=lambda data: data["measurements"][
+    #         "odometerStatus"
+    #     ].odometer.value,
+    # ),
+    # TODO bring back when supported by Cupra
+    # VolkswagenIdEntityDescription(
+    #     name="Odometer in Miles",
+    #     key="odometer_mi",
+    #     native_unit_of_measurement=LENGTH_MILES,
+    #     value=lambda data: data["measurements"][
+    #         "odometerStatus"
+    #     ].odometer.value,
+    # ),
 )
 
 
