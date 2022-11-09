@@ -1,6 +1,5 @@
 """Button integration."""
 from weconnect import weconnect
-from weconnect.elements.vehicle import Vehicle
 
 from homeassistant.components.button import ButtonEntity
 
@@ -41,7 +40,7 @@ class VolkswagenIDStartClimateButton(ButtonEntity):
 class VolkswagenIDToggleACChargeSpeed(ButtonEntity):
     """Button for toggling the charge speed."""
 
-    def __init__(self, vehicle: Vehicle, we_connect: weconnect.WeConnect) -> None:
+    def __init__(self, vehicle, we_connect: weconnect.WeConnect) -> None:
         """Initialize VolkswagenID vehicle sensor."""
         self._attr_name = f"{vehicle.nickname} Toggle AC Charge Speed"
         self._attr_unique_id = f"{vehicle.vin}-toggle_ac_charge_speed"

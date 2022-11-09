@@ -7,8 +7,8 @@ import asyncio
 import time
 
 from weconnect import weconnect
-from weconnect.elements.control_operation import ControlOperation
 from weconnect.service import Service
+from weconnect.elements.control_operation import ControlOperation
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
@@ -291,9 +291,7 @@ def set_climatisation(
                         vehicle.controls.climatizationControl is not None
                         and vehicle.controls.climatizationControl.enabled
                     ):
-                        vehicle.controls.climatizationControl.value = (
-                            ControlOperation.START
-                        )
+                        vehicle.controls.climatizationControl.value = ControlOperation.START
                         _LOGGER.info("Sended start climate call to the car")
                 except Exception as exc:
                     _LOGGER.error("Failed to send request to car - %s", exc)
@@ -305,9 +303,7 @@ def set_climatisation(
                         vehicle.controls.climatizationControl is not None
                         and vehicle.controls.climatizationControl.enabled
                     ):
-                        vehicle.controls.climatizationControl.value = (
-                            ControlOperation.STOP
-                        )
+                        vehicle.controls.climatizationControl.value = ControlOperation.STOP
                         _LOGGER.info("Sended stop climate call to the car")
                 except Exception as exc:
                     _LOGGER.error("Failed to send request to car - %s", exc)

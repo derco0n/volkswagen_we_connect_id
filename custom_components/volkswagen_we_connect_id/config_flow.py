@@ -5,6 +5,7 @@ import logging
 from typing import Any
 
 import voluptuous as vol
+
 from weconnect import weconnect
 from weconnect.service import Service
 
