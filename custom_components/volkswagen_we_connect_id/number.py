@@ -19,8 +19,7 @@ from homeassistant.const import TEMP_CELSIUS
 
 async def async_setup_entry(hass, config_entry, async_add_entities):
     """Add buttons for passed config_entry in HA."""
-    we_connect: weconnect.WeConnect
-    we_connect = hass.data[DOMAIN][config_entry.entry_id]
+    we_connect: weconnect.WeConnect = hass.data[DOMAIN][config_entry.entry_id]
     coordinator = hass.data[DOMAIN][config_entry.entry_id + "_coordinator"]
 
     # Fetch initial data so we have data when entities subscribe

@@ -55,7 +55,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             )
         except asyncio.TimeoutError:
             _LOGGER.error("Timeout updating weconnect")
-            return
+            return hass.data[DOMAIN][entry.entry_id + "_vehicles"]
+        except Exception:
+            _LOGGER.error("Unknown error while updating weconnect", exc_info=1)
+            return hass.data[DOMAIN][entry.entry_id + "_vehicles"]
 
         vehicles = []
 
