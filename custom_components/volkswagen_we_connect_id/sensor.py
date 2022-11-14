@@ -75,14 +75,14 @@ SENSORS: tuple[VolkswagenIdEntityDescription, ...] = (
             "climatisationSettings"
         ].targetTemperature_F.value,
     ),
-    # Not available from Cupra ?
-    # VolkswagenIdEntityDescription(
-    #     key="unitInCar",
-    #     name="Unit In car",
-    #     value=lambda data: data["climatisation"][
-    #         "climatisationSettings"
-    #     ].unitInCar.value,
-    # ),
+    # Not available from Cupra
+    VolkswagenIdEntityDescription(
+        key="unitInCar",
+        name="Unit In car",
+        value=lambda data: data["climatisation"][
+            "climatisationSettings"
+        ].unitInCar.value,
+    ),
     # This is a string, not an number
     VolkswagenIdEntityDescription(
         key="chargingState",
@@ -168,33 +168,31 @@ SENSORS: tuple[VolkswagenIdEntityDescription, ...] = (
             "batteryStatus"
         ].cruisingRangeElectric_km.value,
     ),
-    # TODO bring back when supported by Cupra
-    # VolkswagenIdEntityDescription(
-    #     name="Health Inspection",
-    #     key="inspectionDue",
-    #     native_unit_of_measurement=TIME_DAYS,
-    #     value=lambda data: data["vehicleHealthInspection"][
-    #         "maintenanceStatus"
-    #     ].inspectionDue_days.value,
-    # ),
-    # TODO bring back when supported by Cupra
-    # VolkswagenIdEntityDescription(
-    #     name="Odometer in Kilometers",
-    #     key="odometer_km",
-    #     native_unit_of_measurement=LENGTH_KILOMETERS,
-    #     value=lambda data: data["measurements"][
-    #         "odometerStatus"
-    #     ].odometer.value,
-    # ),
-    # TODO bring back when supported by Cupra
-    # VolkswagenIdEntityDescription(
-    #     name="Odometer in Miles",
-    #     key="odometer_mi",
-    #     native_unit_of_measurement=LENGTH_MILES,
-    #     value=lambda data: data["measurements"][
-    #         "odometerStatus"
-    #     ].odometer.value,
-    # ),
+    # Not supported by Cupra
+    VolkswagenIdEntityDescription(
+        name="Health Inspection",
+        key="inspectionDue",
+        native_unit_of_measurement=TIME_DAYS,
+        value=lambda data: data["vehicleHealthInspection"][
+            "maintenanceStatus"
+        ].inspectionDue_days.value if "vehicleHealthInspection" in data else None,
+    ),
+    VolkswagenIdEntityDescription(
+        name="Odometer in Kilometers",
+        key="odometer_km",
+        native_unit_of_measurement=LENGTH_KILOMETERS,
+        value=lambda data: data["measurements"][
+            "odometerStatus"
+        ].odometer.value,
+    ),
+    VolkswagenIdEntityDescription(
+        name="Odometer in Miles",
+        key="odometer_mi",
+        native_unit_of_measurement=LENGTH_MILES,
+        value=lambda data: data["measurements"][
+            "odometerStatus"
+        ].odometer.value,
+    ),
 )
 
 
