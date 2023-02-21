@@ -195,24 +195,24 @@ SENSORS: tuple[VolkswagenIdEntityDescription, ...] = (
             "maintenanceStatus"
         ].inspectionDue_days.value if "vehicleHealthInspection" in data else None,
     ),
-    # VolkswagenIdEntityDescription(
-    #     name="Odometer in Kilometers",
-    #     key="odometer_km",
-    #     native_unit_of_measurement=LENGTH_KILOMETERS,
-    #     state_class=SensorStateClass.MEASUREMENT,
-    #     value=lambda data: data["measurements"][
-    #         "odometerStatus"
-    #     ].odometer.value,
-    # ),
-    # VolkswagenIdEntityDescription(
-    #     name="Odometer in Miles",
-    #     key="odometer_mi",
-    #     native_unit_of_measurement=LENGTH_MILES,
-    #     state_class=SensorStateClass.MEASUREMENT,
-    #     value=lambda data: data["measurements"][
-    #         "odometerStatus"
-    #     ].odometer.value,
-    # ),
+    VolkswagenIdEntityDescription(
+        name="Odometer in Kilometers",
+        key="odometer_km",
+        native_unit_of_measurement=LENGTH_KILOMETERS,
+        state_class=SensorStateClass.MEASUREMENT,
+        value=lambda data: data["measurements"][
+            "odometerStatus"
+        ].odometer.value,
+    ),
+    VolkswagenIdEntityDescription(
+        name="Odometer in Miles",
+        key="odometer_mi",
+        native_unit_of_measurement=LENGTH_MILES,
+        state_class=SensorStateClass.MEASUREMENT,
+        value=lambda data: data["measurements"][
+            "odometerStatus"
+        ].odometer.value,
+    ),
 )
 
 
