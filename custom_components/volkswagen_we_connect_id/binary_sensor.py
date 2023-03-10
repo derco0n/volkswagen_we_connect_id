@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from weconnect import weconnect
 from weconnect.elements.plug_status import PlugStatus
 from weconnect.elements.window_heating_status import WindowHeatingStatus
+from weconnect.elements.access_control_state import AccessControlState
 
 from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
@@ -123,6 +124,182 @@ SENSORS: tuple[VolkswagenIdBinaryEntityDescription, ...] = (
             "readinessStatus"
         ].connectionState.isActive.value,
     ),
+    VolkswagenIdBinaryEntityDescription(
+        key="doorLockStatus",
+        name="Door Lock Status",
+        icon="mdi:car-door-lock",
+        device_class=BinarySensorDeviceClass.LOCK,
+        value=lambda data: data["access"]["accessStatus"].doorLockStatus.value,
+        on_value=AccessControlState.OverallState.UNSAFE,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="trunkLockStatus",
+        name="Trunk Lock Status",
+        icon="mdi:lock-outline",
+        device_class=BinarySensorDeviceClass.LOCK,
+        value=lambda data: data["access"]["accessStatus"]
+        .doors["trunk"]
+        .lockState.value,
+        on_value=AccessControlState.LockState.UNLOCKED,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="rearRightLockStatus",
+        name="Door Rear Right Lock Status",
+        icon="mdi:car-door-lock",
+        device_class=BinarySensorDeviceClass.LOCK,
+        value=lambda data: data["access"]["accessStatus"]
+        .doors["rearRight"]
+        .lockState.value,
+        on_value=AccessControlState.LockState.UNLOCKED,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="rearLeftLockStatus",
+        name="Door Rear Left Lock Status",
+        icon="mdi:car-door-lock",
+        device_class=BinarySensorDeviceClass.LOCK,
+        value=lambda data: data["access"]["accessStatus"]
+        .doors["rearLeft"]
+        .lockState.value,
+        on_value=AccessControlState.LockState.UNLOCKED,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="frontLeftLockStatus",
+        name="Door Front Left Lock Status",
+        icon="mdi:car-door-lock",
+        device_class=BinarySensorDeviceClass.LOCK,
+        value=lambda data: data["access"]["accessStatus"]
+        .doors["frontLeft"]
+        .lockState.value,
+        on_value=AccessControlState.LockState.UNLOCKED,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="frontRightLockStatus",
+        name="Door Front Right Lock Status",
+        icon="mdi:car-door-lock",
+        device_class=BinarySensorDeviceClass.LOCK,
+        value=lambda data: data["access"]["accessStatus"]
+        .doors["frontRight"]
+        .lockState.value,
+        on_value=AccessControlState.LockState.UNLOCKED,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="trunkOpenStatus",
+        name="Trunk Open Status",
+        device_class=BinarySensorDeviceClass.DOOR,
+        value=lambda data: data["access"]["accessStatus"]
+        .doors["trunk"]
+        .openState.value,
+        on_value=AccessControlState.OpenState.OPEN,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="rearRightOpenStatus",
+        name="Door Rear Right Open Status",
+        icon="mdi:car-door",
+        device_class=BinarySensorDeviceClass.DOOR,
+        value=lambda data: data["access"]["accessStatus"]
+        .doors["rearRight"]
+        .openState.value,
+        on_value=AccessControlState.OpenState.OPEN,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="rearLeftOpenStatus",
+        name="Door Rear Left Open Status",
+        icon="mdi:car-door",
+        device_class=BinarySensorDeviceClass.DOOR,
+        value=lambda data: data["access"]["accessStatus"]
+        .doors["rearLeft"]
+        .openState.value,
+        on_value=AccessControlState.OpenState.OPEN,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="frontLeftOpenStatus",
+        name="Door Front Left Open Status",
+        icon="mdi:car-door",
+        device_class=BinarySensorDeviceClass.DOOR,
+        value=lambda data: data["access"]["accessStatus"]
+        .doors["frontLeft"]
+        .openState.value,
+        on_value=AccessControlState.OpenState.OPEN,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="frontRightOpenStatus",
+        name="Door Front Right Open Status",
+        icon="mdi:car-door",
+        device_class=BinarySensorDeviceClass.DOOR,
+        value=lambda data: data["access"]["accessStatus"]
+        .doors["frontRight"]
+        .openState.value,
+        on_value=AccessControlState.OpenState.OPEN,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="windowRearRightOpenStatus",
+        name="Window Rear Right Open Status",
+        icon="mdi:window-closed",
+        device_class=BinarySensorDeviceClass.WINDOW,
+        value=lambda data: data["access"]["accessStatus"]
+        .windows["rearRight"]
+        .openState.value,
+        on_value=AccessControlState.OpenState.OPEN,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="windowRearLeftOpenStatus",
+        name="Window Rear Left Open Status",
+        icon="mdi:window-closed",
+        device_class=BinarySensorDeviceClass.WINDOW,
+        value=lambda data: data["access"]["accessStatus"]
+        .windows["rearLeft"]
+        .openState.value,
+        on_value=AccessControlState.OpenState.OPEN,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="windowFrontLeftOpenStatus",
+        name="Window Front Left Open Status",
+        icon="mdi:window-closed",
+        device_class=BinarySensorDeviceClass.WINDOW,
+        value=lambda data: data["access"]["accessStatus"]
+        .windows["frontLeft"]
+        .openState.value,
+        on_value=AccessControlState.OpenState.OPEN,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="windowfrontRightOpenStatus",
+        name="Window Front Right Open Status",
+        icon="mdi:window-closed",
+        device_class=BinarySensorDeviceClass.WINDOW,
+        value=lambda data: data["access"]["accessStatus"]
+        .windows["frontRight"]
+        .openState.value,
+        on_value=AccessControlState.OpenState.OPEN,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="overallStatus",
+        name="Overall Status",
+        icon="mdi:car-info",
+        device_class=BinarySensorDeviceClass.LOCK,
+        value=lambda data: data["access"]["accessStatus"].overallStatus.value,
+        on_value=AccessControlState.OverallState.UNSAFE,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="engineStatus",
+        name="Engine Status",
+        icon="mdi:engine-outline",
+        device_class=BinarySensorDeviceClass.POWER,
+        value=lambda data: data["access"]["accessStatus"].engineStatus.value,
+        on_value=AccessControlState.EngineState.ON,
+    ),
+    VolkswagenIdBinaryEntityDescription(
+        key="lightsStatus",
+        name="Lights Status",
+        icon="mdi:car-light-dimmed",
+        device_class=BinarySensorDeviceClass.LIGHT,
+        value=lambda data: data["access"]["accessStatus"].lightsStatus.value,
+        on_value=AccessControlState.LightsState.ON,
+    ),
+
+
+
+
+
 )
 
 
