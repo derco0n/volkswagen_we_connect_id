@@ -1,0 +1,21 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Gerät ist bereits konfiguriert."
+        },
+        "error": {
+            "cannot_connect": "Fehler beim Verbinden",
+            "invalid_auth": "Ungültige Zugangsdaten",
+            "unknown": "Unerwarteter Fehler"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "host": "Server",
+                    "password": "Passwort",
+                    "username": "Benutzername"
+                }
+            }
+        }
+    }
+}
