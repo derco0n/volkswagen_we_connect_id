@@ -5,12 +5,15 @@ import logging
 from typing import Any
 
 import voluptuous as vol
+
 from weconnect import weconnect
+from weconnect.service import Service
 
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
+from homeassistant.helpers.selector import selector
 
 from .const import DOMAIN
 
@@ -20,6 +23,11 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required("username"): str,
         vol.Required("password"): str,
+        vol.Required("service", default='WeConnect'): selector({
+            "select": {
+                "options": ["WeConnect", "MyCupra"]
+            }
+        }),
     }
 )
 
@@ -27,11 +35,14 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
 async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str, Any]:
     """Validate the user input allows us to connect."""
 
+    _LOGGER.debug(f'validate_input with username={data["username"]}, service={Service(data["service"])}')
+
     we_connect = weconnect.WeConnect(
         username=data["username"],
         password=data["password"],
+        service=Service(data["service"]),
         updateAfterLogin=False,
-        loginOnInit=False,
+        loginOnInit=False
     )
 
     # TODO: ADD Validation on credentials
@@ -63,11 +74,13 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         try:
             info = await validate_input(self.hass, user_input)
         except CannotConnect:
+            _LOGGER.exception("CannotConnect exception during setup", exc_info=1)
             errors["base"] = "cannot_connect"
         except InvalidAuth:
+            _LOGGER.exception("InvalidAuth exception during setup", exc_info=1)
             errors["base"] = "invalid_auth"
         except Exception:  # pylint: disable=broad-except
-            _LOGGER.exception("Unexpected exception")
+            _LOGGER.exception("Unexpected exception during setup", exc_info=1)
             errors["base"] = "unknown"
         else:
             return self.async_create_entry(title=info["title"], data=user_input)

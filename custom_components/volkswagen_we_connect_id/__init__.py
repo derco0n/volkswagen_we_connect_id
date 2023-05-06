@@ -5,7 +5,9 @@ from datetime import timedelta
 import logging
 import asyncio
 import time
+
 from weconnect import weconnect
+from weconnect.service import Service
 from weconnect.elements.control_operation import ControlOperation
 
 from homeassistant.config_entries import ConfigEntry
@@ -23,7 +25,8 @@ PLATFORMS = [Platform.BINARY_SENSOR, Platform.BUTTON, Platform.SENSOR, Platform.
 
 _LOGGER = logging.getLogger(__name__)
 
-SUPPORTED_VEHICLES = ["ID.3", "ID.4", "ID.5"]
+# We shouldn't need to do this check. weconnect-python abstracts it away
+# SUPPORTED_VEHICLES = ["ID.3", "ID.4", "ID.5"]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
@@ -33,6 +36,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     _we_connect = weconnect.WeConnect(
         username=entry.data["username"],
         password=entry.data["password"],
+        service=Service(entry.data["service"]),
         updateAfterLogin=False,
         loginOnInit=False,
         timeout=10
@@ -41,29 +45,29 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await hass.async_add_executor_job(_we_connect.login)
     await hass.async_add_executor_job(_we_connect.update)
 
-
     async def async_update_data():
         """Fetch data from Volkswagen API."""
 
         try:
-            before_update = time.perf_counter()
             await asyncio.wait_for(
                 hass.async_add_executor_job(_we_connect.update),
                 timeout=120.0
             )
-            update_elapsed = time.perf_counter() - before_update
-            if update_elapsed > 30:
-                _LOGGER.warn(F"weconnect update took {update_elapsed:.1f}s")    
-
         except asyncio.TimeoutError:
             _LOGGER.error("Timeout updating weconnect")
-            return
+            return hass.data[DOMAIN][entry.entry_id + "_vehicles"]
+        except Exception:
+            _LOGGER.error("Unknown error while updating weconnect", exc_info=1)
+            return hass.data[DOMAIN][entry.entry_id + "_vehicles"]
 
         vehicles = []
 
         for vin, vehicle in _we_connect.vehicles.items():
-            if vehicle.model.value in SUPPORTED_VEHICLES:
-                vehicles.append(vehicle)
+            # TODO this needs to be done in validate_input so we can warn
+            # user if their vehicle is unsupported
+            # if vehicle.model.value in SUPPORTED_VEHICLES:
+            #     vehicles.append(vehicle)
+            vehicles.append(vehicle)
 
         hass.data[DOMAIN][entry.entry_id + "_vehicles"] = vehicles
         return vehicles
@@ -85,7 +89,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await coordinator.async_config_entry_first_refresh()
 
     # Setup components
-    hass.config_entries.async_setup_platforms(entry, PLATFORMS)
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     @callback
     async def volkswagen_id_start_stop_charging(call: ServiceCall) -> None:
@@ -290,9 +294,7 @@ def set_climatisation(
                         vehicle.controls.climatizationControl is not None
                         and vehicle.controls.climatizationControl.enabled
                     ):
-                        vehicle.controls.climatizationControl.value = (
-                            ControlOperation.START
-                        )
+                        vehicle.controls.climatizationControl.value = ControlOperation.START
                         _LOGGER.info("Sended start climate call to the car")
                 except Exception as exc:
                     _LOGGER.error("Failed to send request to car - %s", exc)
@@ -304,9 +306,7 @@ def set_climatisation(
                         vehicle.controls.climatizationControl is not None
                         and vehicle.controls.climatizationControl.enabled
                     ):
-                        vehicle.controls.climatizationControl.value = (
-                            ControlOperation.STOP
-                        )
+                        vehicle.controls.climatizationControl.value = ControlOperation.STOP
                         _LOGGER.info("Sended stop climate call to the car")
                 except Exception as exc:
                     _LOGGER.error("Failed to send request to car - %s", exc)

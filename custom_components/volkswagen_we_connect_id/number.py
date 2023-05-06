@@ -19,8 +19,7 @@ from homeassistant.const import TEMP_CELSIUS
 
 async def async_setup_entry(hass, config_entry, async_add_entities):
     """Add buttons for passed config_entry in HA."""
-    we_connect: weconnect.WeConnect
-    we_connect = hass.data[DOMAIN][config_entry.entry_id]
+    we_connect: weconnect.WeConnect = hass.data[DOMAIN][config_entry.entry_id]
     coordinator = hass.data[DOMAIN][config_entry.entry_id + "_coordinator"]
 
     # Fetch initial data so we have data when entities subscribe
@@ -53,9 +52,9 @@ class TargetSoCNumber(VolkswagenIDBaseEntity, NumberEntity):
         self._attr_name = f"{self.data.nickname} Target State Of Charge"
         self._attr_unique_id = f"{self.data.vin}-target_state_of_charge"
         self._we_connect = we_connect
-        self._native_min_value = 10
-        self._native_max_value = 100
-        self._native_step = 10
+        self._attr_native_min_value = 10
+        self._attr_native_max_value = 100
+        self._attr_native_step = 10
 
     @property
     def native_value(self) -> float | None:
@@ -95,10 +94,10 @@ class TargetClimateNumber(VolkswagenIDBaseEntity, NumberEntity):
         self._attr_name = f"{self.data.nickname} Target Climate Temperature"
         self._attr_unique_id = f"{self.data.vin}-target_climate_temperature"
         self._we_connect = we_connect
-        self._native_max_value = 10
-        self._native_min_value = 30
-        self._native_step = 0.5
-        self._native_unit_of_measurement = TEMP_CELSIUS
+        self._attr_native_min_value = 10
+        self._attr_native_max_value = 30
+        self._attr_native_step = 0.5
+        self._attr_native_unit_of_measurement = TEMP_CELSIUS
 
     @property
     def native_value(self) -> float | None:
