@@ -1,6 +1,13 @@
 # Volkswagen We Connect ID
 _Volkswagen We Connect ID sensor provides statistics from the Volkswagen ID Api thru [WeConnect-python lib](https://pypi.org/project/weconnect/)._
 
+## Contributors
+This is based on the work of many people.
+This repo evolved over the following repositories:
+- [https://github.com/mitch-dc/volkswagen_we_connect_id](https://github.com/mitch-dc/volkswagen_we_connect_id) - basic toolset
+- [https://github.com/alangibson/volkswagen_we_connect_id](https://github.com/alangibson/volkswagen_we_connect_id) - initial adaptation for the Cupra Born
+- [https://github.com/daernsinstantfortress/volkswagen_we_connect_id](https://github.com/daernsinstantfortress/volkswagen_we_connect_id) - further enhancements for the Cupra Born
+
 **This component will set up the following platforms.**
 
 Platform | Description
@@ -43,6 +50,7 @@ After that enable the integration on the integration page in Home Assistant with
 
 * Volkswagen ID.3
 * Volkswagen ID.4
+* Cupra Born
 
 ## Requirements
 
