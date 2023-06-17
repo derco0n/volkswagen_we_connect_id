@@ -3,12 +3,12 @@
   "name": "Volkswagen We Connect ID",
   "config_flow": true,
   "documentation": "https://github.com/derco0n/volkswagen_we_connect_id",
-  "requirements": ["weconnect-cupra-daern==0.49.18", "ascii_magic==1.6"],
+  "requirements": ["weconnect-cupra-daern==0.50.3", "ascii_magic==1.6"],
   "ssdp": [],
   "zeroconf": [],
   "homekit": {},
   "dependencies": [],
   "codeowners": ["@mitch-dc", "@alangibson", "@daernsinstantfortress", "@derco0n"],
   "iot_class": "cloud_polling",
-  "version": "0.61"
+  "version": "0.62"
 }
