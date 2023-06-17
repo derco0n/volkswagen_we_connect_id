@@ -1,5 +1,5 @@
 # Volkswagen We Connect ID
-_Volkswagen We Connect ID sensor provides statistics from the Volkswagen ID Api thru [WeConnect-python lib](https://pypi.org/project/weconnect/)._
+Volkswagen We Connect ID sensor provides statistics from the Volkswagen ID API thru ~~[WeConnect-python lib](https://pypi.org/project/weconnect/)~~ [a modified Version of WeConnect-python lib](https://pypi.org/project/weconnect-cupra-daern/0.49.20/).
 
 ## Contributors
 This is based on the work of many people.
